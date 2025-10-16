@@ -1,4 +1,10 @@
+import { useSession, signIn, signOut } from "next-auth/react"
+import Image from "next/image";
+
 export function Header(){
+
+    const { data: session, status } = useSession();
+
     return(
         <>
         <header className="lg:h-14">
@@ -8,7 +14,24 @@ export function Header(){
                 <a href="#" className="bg-white h-5 lg:h-10 flex items-center justify-center w-24 lg:w-36 rounded-md">Meu Painel</a>
             </div>
 
-            <button className="text-white border rounded-full lg:h-10 flex items-center justify-center w-20 lg:w-36 cursor-pointer hover:bg-white hover:text-black transition-all duration-400 transform scale-105">Acessar</button>
+           {status === "loading" ? (
+            <>
+            <div
+            className="text-white border rounded-full lg:h-10 flex items-center justify-center w-20 lg:w-36 cursor-pointer hover:bg-white hover:text-black transition-all duration-700 transform scale-105"
+            >Carregando...</div>
+            </>
+           ) : session ? (
+            <button 
+            className="text-white border rounded-full lg:h-10 flex items-center justify-center w-20 lg:w-36 cursor-pointer hover:bg-white hover:text-black transition-all duration-700 transform scale-105"
+            onClick={()=>{signOut()}}
+            >Olá {session.user?.name} </button>                
+           ) : (
+            <button 
+            className="text-white border rounded-full lg:h-10 flex items-center justify-center w-20 lg:w-36 cursor-pointer hover:bg-white hover:text-black transition-all duration-700 transform scale-105"
+            onClick={()=>{signIn("google")}}
+            >Acessar</button>
+           )}   
+
             </div>
         </header>
         </>
