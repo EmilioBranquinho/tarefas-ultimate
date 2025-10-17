@@ -10,8 +10,10 @@ export function Header(){
         <header className="lg:h-14">
             <div className="flex h-full items-center justify-between mx-8 lg:mx-32 mt-5 gap-3 lg:gap-0">
             <div className="flex items-center justify-center gap-3">
-                <a className="text-white lg:text-4xl font-bold" href="/">Tarefas <span className="text-red-600">Ultim8</span></a>
-                <a href="#" className="bg-white h-5 lg:h-10 flex items-center justify-center w-24 lg:w-36 rounded-md">Meu Painel</a>
+                <a className="text-white lg:text-4xl font-bold" href="/">Tarefas <span className="text-red-600">UltiM8</span></a>
+                {session?.user &&(
+                    <a href="#" className="bg-white h-5 lg:h-10 flex items-center justify-center w-24 lg:w-36 rounded-md">Meu Painel</a>
+                )}
             </div>
 
            {status === "loading" ? (
