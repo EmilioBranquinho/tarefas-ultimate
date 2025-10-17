@@ -12,7 +12,7 @@ export function Header(){
             <div className="flex items-center justify-center gap-3">
                 <a className="text-white lg:text-4xl font-bold" href="/">Tarefas <span className="text-red-600">UltiM8</span></a>
                 {session?.user &&(
-                    <a href="#" className="bg-white h-5 lg:h-10 flex items-center justify-center w-24 lg:w-36 rounded-md">Meu Painel</a>
+                    <a href="/dashboard" className="bg-white h-5 lg:h-10 flex items-center justify-center w-24 lg:w-36 rounded-md">Meu Painel</a>
                 )}
             </div>
 
@@ -24,7 +24,7 @@ export function Header(){
             </>
            ) : session ? (
             <button 
-            className="text-white border rounded-full lg:h-10 flex items-center justify-center w-20 lg:w-36 cursor-pointer hover:bg-white hover:text-black transition-all duration-700 transform scale-105"
+            className="text-white text-sm border rounded-full lg:h-10 flex items-center justify-center w-20 lg:w-36 cursor-pointer hover:bg-white hover:text-black transition-all duration-700 transform scale-105"
             onClick={()=>{signOut()}}
             >Olá {session.user?.name} </button>                
            ) : (

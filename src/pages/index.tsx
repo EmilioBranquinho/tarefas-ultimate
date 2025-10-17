@@ -1,8 +1,13 @@
 import Image from "next/image";
 import superhero from '../../public/assets/superhero-animate.svg'
+import Head from "next/head";
 
 export default function Home() {
   return (
+    <>
+     <Head>
+      <title>Home</title>
+    </Head>
     <div
      className="flex items-center justify-center h-screen"
     >
@@ -25,5 +30,6 @@ export default function Home() {
       </div>
     </main>
     </div>
+    </>
   );
 }
