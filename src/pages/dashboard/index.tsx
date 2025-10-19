@@ -7,14 +7,15 @@ import { Share, Share2, Trash, Trash2 } from "lucide-react";
 import { Textarea } from "@/components/ui/Textarea";
 import { ChangeEvent, useEffect, useState } from "react";
 import { db } from "@/services/firebaseConnection";
-import { addDoc, collection, getDocs, orderBy, query, where } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDocs, onSnapshot, orderBy, query, where } from "firebase/firestore";
 import { email } from "zod";
+import { id } from "zod/locales";
 
 interface taskProps{
     id: string,
     user: string,
     task: string,
-    public: string,
+    public: boolean,
     createdAt: string
 }
 
@@ -33,9 +34,28 @@ export default function Dashboard({ user }: DashboardProps){
     useEffect(()=>{
         async function getTasks(){
             const tasksRefs = collection(db, "tasks");
-            const q = query(tasksRefs, orderBy("createdAt", "desc"), where("user", "==", user.email))
-        }    
-    })
+            const q = query(tasksRefs, orderBy("createdAt", "desc"), where("user", "==", user.email));
+
+            onSnapshot(q, (snapshot) => {
+                let allTasks = [] as taskProps[];
+                snapshot.forEach((doc)=>{
+                allTasks.push({
+                    id: doc.id,
+                    user:doc.data().user,
+                    task:doc.data().task,
+                    public:doc.data().public,
+                    createdAt:doc.data().createdAt,
+                })
+             })
+             setTasks(allTasks)
+              
+            })
+            //console.log(tasks) 
+            
+        }
+        
+        getTasks()
+    }, [user.email])
 
     function handleChangePublic(event: ChangeEvent<HTMLInputElement>){
         setPublicTask(event.target.checked)       
@@ -63,6 +83,13 @@ export default function Dashboard({ user }: DashboardProps){
             console.log(error)
         })
 
+    }
+
+    async function handleDeleteTask(id: string){
+        await deleteDoc(doc(db, "tasks", id))
+        .then(()=>{
+            setTasks(tasks.filter(task=> task.id !== id))
+        })
     }
     
                       
@@ -94,19 +121,22 @@ export default function Dashboard({ user }: DashboardProps){
                 </div>                
         </section>
 
-        <section className="bg-white h-screen mt-10">
+        <section className="bg-white h-screen mt-10 overflow-y-auto">
         <h1 className="text-center text-3xl font-bold pt-14">Minhas tarefas</h1>
             <div className="flex flex-col items-center mx-5 lg:mx-40">
                 {tasks.map((task)=>(
-                    <div className="mt-5 border border-gray-700 rounded-md w-full h-20 flex flex-col justify-center gap-2 px-10">
+                    <div key={task.id} className="mt-5 border border-gray-700 rounded-md w-full h-20 flex flex-col justify-center gap-2 px-10">
+                    {task.public &&(
                     <div className="flex gap-2 items-center">
                         <span className="bg-blue-600 text-white w-16 flex items-center justify-center rounded-sm">Público</span>
                         <i><Share2 className="text-blue-600"/></i>
                     </div>
+                    )}
                     <div className="flex justify-between items-center">
                         <span className="whitespace-pre-wrap">{task.task}</span>
-                        <button className="cursor-pointer">
-                            <i><Trash2 color="red"/></i>
+                        <button onClick={()=>{handleDeleteTask(task.id)}} className="cursor-pointer">
+                        <i><Trash2 color="red"/></i>
+                        
                         </button>
                     </div>
                     </div>
