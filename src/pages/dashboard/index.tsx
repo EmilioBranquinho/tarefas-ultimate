@@ -10,6 +10,8 @@ import { db } from "@/services/firebaseConnection";
 import { addDoc, collection, deleteDoc, doc, getDocs, onSnapshot, orderBy, query, where } from "firebase/firestore";
 import { email } from "zod";
 import { id } from "zod/locales";
+import Link from "next/link";
+import toast from "react-hot-toast";
 
 interface taskProps{
     id: string,
@@ -50,7 +52,6 @@ export default function Dashboard({ user }: DashboardProps){
              setTasks(allTasks)
               
             })
-            //console.log(tasks) 
             
         }
         
@@ -63,7 +64,7 @@ export default function Dashboard({ user }: DashboardProps){
 
     async function handleAddTask(){
         if(input === ""){
-            alert("Preencha o campo!")
+            toast.error("Preencha o campo!")
             return
         }
 
@@ -75,7 +76,7 @@ export default function Dashboard({ user }: DashboardProps){
             createdAt: new Date()
         })
         .then(()=>{
-            alert("Tarefa cadastrada com sucesso")
+            toast.success("Tarefa cadastrada com sucesso")
             setInput("")
             setPublicTask(false)
         })
@@ -89,11 +90,22 @@ export default function Dashboard({ user }: DashboardProps){
         await deleteDoc(doc(db, "tasks", id))
         .then(()=>{
             setTasks(tasks.filter(task=> task.id !== id))
+            toast.success("Tarefa deletada")
         })
     }
-    
-                      
 
+    async function handleShare(id: string){
+        await navigator.clipboard.writeText(
+            `${process.env.NEXT_PUBLIC_URL}/task/${id}`
+        )
+        .then(()=>{
+            toast.success("Copiado")
+        })
+        .catch((error)=>{
+            console.log(error)
+        })
+    }  
+                      
     return(
         <>
         <Head>
@@ -116,7 +128,7 @@ export default function Dashboard({ user }: DashboardProps){
                <span className="text-white font-semibold">Deixar tarefa pública</span>
                </div>
                <div>
-                <button onClick={handleAddTask} className="bg-blue-600 w-full text-white h-10 rounded-md cursor-pointer hover:bg-white hover:text-blue-600 transition-all duration-700 transform scale-105">Registrar</button>
+                <button onClick={handleAddTask} className="bg-blue-600 w-full text-white h-10 rounded-md cursor-pointer hover:bg-white hover:text-blue-600 transition-all duration-700 transform ">Registrar</button>
                </div>
                 </div>                
         </section>
@@ -129,14 +141,17 @@ export default function Dashboard({ user }: DashboardProps){
                     {task.public &&(
                     <div className="flex gap-2 items-center">
                         <span className="bg-blue-600 text-white w-16 flex items-center justify-center rounded-sm">Público</span>
-                        <i><Share2 className="text-blue-600"/></i>
+                        <button className="cursor-pointer" onClick={()=>{handleShare(task.id)}}><i><Share2 className="text-blue-600"/></i></button>
                     </div>
                     )}
                     <div className="flex justify-between items-center">
-                        <span className="whitespace-pre-wrap">{task.task}</span>
+                        {task.public ?(
+                            <Link href={`http://localhost:3000/task/${task.id}`}><span className="whitespace-pre-wrap">{task.task}</span></Link>
+                        ) : (
+                            <span className="whitespace-pre-wrap">{task.task}</span>
+                        )}
                         <button onClick={()=>{handleDeleteTask(task.id)}} className="cursor-pointer">
-                        <i><Trash2 color="red"/></i>
-                        
+                        <i><Trash2 color="red"/></i>        
                         </button>
                     </div>
                     </div>
