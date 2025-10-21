@@ -92,6 +92,9 @@ export default function Dashboard({ user }: DashboardProps){
             setTasks(tasks.filter(task=> task.id !== id))
             toast.success("Tarefa deletada")
         })
+        .catch((error)=>{
+            console.log(error)
+        })
     }
 
     async function handleShare(id: string){

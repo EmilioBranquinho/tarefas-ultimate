@@ -21,11 +21,11 @@ export default function Home() {
         priority={true}
         />
       </div>
-      <div className="flex flex-col gap-8 items-center justify-center ">
-        <div className="text-white lg:text-3xl font-bold w-3xs lg:w-auto ">ORGANIZE AS SUAS TAREFAS DE FORMA EFICIENTE E PRODUTIVA</div>
+      <div className="flex flex-col gap-8 items-center justify-center">
+        <div className="text-white md:text-2xl lg:text-3xl font-bold w-3xs md:w-full lg:w-auto ">ORGANIZE AS SUAS TAREFAS DE FORMA EFICIENTE E PRODUTIVA</div>
         <div className="text-black flex flex-col lg:flex-row items-center justify-center gap-3 lg:gap-10 w-full">
-          <div className="bg-white h-10 flex items-center justify-center w-full lg:w-36 rounded-md">+20 posts</div>
-          <div className="bg-white h-10 flex items-center justify-center w-full lg:w-36 rounded-md">+50 comentários</div>
+          <div className="bg-white h-10 flex items-center justify-center w-full md:h-12 md:text-xl lg:w-36 rounded-md">+20 posts</div>
+          <div className="bg-white h-10 flex items-center justify-center w-full md:h-12 md:text-xl lg:w-36 rounded-md">+50 comentários</div>
         </div>
       </div>
     </main>
