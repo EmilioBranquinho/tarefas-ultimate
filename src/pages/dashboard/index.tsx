@@ -149,7 +149,7 @@ export default function Dashboard({ user }: DashboardProps){
                     )}
                     <div className="flex justify-between items-center">
                         {task.public ?(
-                            <Link href={`http://localhost:3000/task/${task.id}`}><span className="whitespace-pre-wrap">{task.task}</span></Link>
+                            <Link href={`/task/${task.id}`}><span className="whitespace-pre-wrap">{task.task}</span></Link>
                         ) : (
                             <span className="whitespace-pre-wrap">{task.task}</span>
                         )}
