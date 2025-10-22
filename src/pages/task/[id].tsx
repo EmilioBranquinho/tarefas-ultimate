@@ -125,7 +125,11 @@ export default function Task({ item, allComments }: taskProps){
                             <div key={comment.id} className="mt-5 border border-gray-700 rounded-md w-full h-20 flex flex-col justify-center gap-2 px-3 lg:px-10">
                             <div className="flex gap-1 w-full">
                             <div>
-                            {/* <Image className="rounded-full" quality={100} src={`${session?.user?.image}`} width={50}height={50} alt="sldkd" /> */}
+                            {comment.useremail === session?.user?.email ?(
+                              <Image className="rounded-full" quality={100} src={`${session?.user?.image}`} width={50}height={50} alt="sldkd" />   
+                            ) : (
+                            <Image className="rounded-full" quality={100} src={`${comment.userPicture}`} width={50}height={50} alt="sldkd" />
+                            )} 
                             </div>
                             <div className="flex flex-col w-full">
                             <div className="flex items-center"> 
@@ -219,8 +223,6 @@ export const getServerSideProps: GetServerSideProps = async ({ params, req })=>{
                 createdAt: new Date(commentDate).toLocaleString()
             })
         })
-
-    console.log(allComments)
 
     return{
         props: {
