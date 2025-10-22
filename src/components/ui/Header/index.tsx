@@ -9,7 +9,7 @@ export function Header(){
         <header className="lg:h-14">
             <div className="flex h-full items-center justify-between mx-5 lg:mx-32 mt-5 gap-3 lg:gap-0">
             <div className="flex items-center justify-center gap-3">
-                <a className="text-white lg:text-4xl font-bold lg:flex-row lg:gap-2 flex flex-col" href="/">
+                <a className="text-white lg:text-4xl font-bold lg:flex-row lg:gap-2 flex flex-col text-xl items-center" href="/">
                 <span>Tarefas</span> 
                 <span className="text-red-600">UltiM8</span>
                 </a>
