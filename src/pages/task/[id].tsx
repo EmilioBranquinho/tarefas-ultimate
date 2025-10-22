@@ -118,7 +118,7 @@ export default function Task({ item, allComments }: taskProps){
                     </div>               
             </section>
 
-            <section className="bg-white h-screen overflow-y-auto">
+            <section className="bg-white h-screen overflow-y-auto mt-10 ">
                 <h1 className="text-center text-3xl font-bold pt-14">Comentários</h1>
                     <div className="flex flex-col items-center mx-5 lg:mx-40">
                         {comments.map((comment)=>(
